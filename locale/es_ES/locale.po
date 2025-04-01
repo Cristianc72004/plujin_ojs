@@ -1,0 +1,5 @@
+msgid "plugins.generic.viewSubmissionFiles.displayName"
+msgstr "Ver Archivos de Envíos"
+
+msgid "plugins.generic.viewSubmissionFiles.description"
+msgstr "Permite a los usuarios ver archivos enviados en una ventana emergente."
