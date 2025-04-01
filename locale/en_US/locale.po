@@ -3,3 +3,6 @@ msgstr "View Submission Files"
 
 msgid "plugins.generic.viewSubmissionFiles.description"
 msgstr "Allows users to view submitted files in a popup."
+
+msgid "plugins.generic.viewSubmissionFiles.visualizeFile"
+msgstr "Visualize"

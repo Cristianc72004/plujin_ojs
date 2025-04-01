@@ -45,6 +45,12 @@ class ViewSubmissionFilesPlugin extends GenericPlugin
                     'viewFiles',
                     new AjaxModal($router->url($request, null, null, 'manage', null, array('verb' => 'viewFiles', 'plugin' => $this->getName(), 'category' => 'generic')), $this->getDisplayName()),
                     __('plugins.generic.viewSubmissionFiles.viewFiles'),
+                ),
+                // Agregar enlace para visualizar el archivo
+                new LinkAction(
+                    'visualizarArchivo',
+                    new AjaxModal($router->url($request, null, null, 'manage', null, array('verb' => 'visualizarArchivo', 'plugin' => $this->getName(), 'category' => 'generic')), $this->getDisplayName()),
+                    __('plugins.generic.viewSubmissionFiles.visualizeFile'),
                 )
             ] : [],
             parent::getActions($request, $actionArgs)
@@ -55,9 +61,11 @@ class ViewSubmissionFilesPlugin extends GenericPlugin
     {
         switch ($request->getUserVar('verb')) {
             case 'viewFiles':
-                // Implementa la lógica para mostrar los archivos en el modal
-                // Aquí puedes obtener la lista de archivos desde la carpeta, por ejemplo, 'C:/xampp/Revista/journals/1/articles'
                 return new JSONMessage(true, 'Archivos listados en el modal...');
+            case 'visualizarArchivo':
+                // Aquí debes manejar la lógica para abrir y mostrar el archivo
+                $fileUrl = $request->getUserVar('fileUrl'); // Recibir la URL del archivo a visualizar
+                return new JSONMessage(true, 'Visualizando archivo: ' . $fileUrl);
             default:
                 return parent::manage($verb, $args, $message, $messageParams);
         }
