@@ -1,5 +1,4 @@
 <?php
-
 import('lib.pkp.classes.plugins.GenericPlugin');
 
 class DocxViewerPlugin extends GenericPlugin {
