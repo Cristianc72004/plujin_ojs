@@ -1,8 +1,8 @@
-msgid "plugins.generic.viewSubmissionFiles.displayName"
-msgstr "View Submission Files"
+msgid "plugins.generic.docxViewer.displayName"
+msgstr "DOCX Viewer Plugin"
 
-msgid "plugins.generic.viewSubmissionFiles.description"
-msgstr "Allows users to view submitted files in a popup."
+msgid "plugins.generic.docxViewer.description"
+msgstr "Allows viewing DOCX files directly from local server."
 
-msgid "plugins.generic.viewSubmissionFiles.visualizeFile"
-msgstr "Visualize"
+msgid "plugins.generic.docxViewer.button.viewDocx"
+msgstr "View DOCX"
