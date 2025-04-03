@@ -1,47 +1,28 @@
 <?php
-import('classes.handler.Handler');
-import('lib.pkp.classes.file.PrivateFileManager');
 
-use APP\facades\Repo;
-use PKP\security\authorization\ContextAccessPolicy;
+import('lib.pkp.classes.controllers.grid.GridHandler');
 
-class DocxViewerHandler extends Handler {
+class VisualizadorDocsGridHandler extends GridHandler {
     public function authorize($request, &$args, $roleAssignments) {
-        import('lib.pkp.classes.security.authorization.WorkflowStageAccessPolicy');
-
-        $stageId = (int) $request->getUserVar('stageId');
-        $submissionId = (int) $request->getUserVar('submissionId');
-
-        $this->addPolicy(new WorkflowStageAccessPolicy(
-            $request,
-            $args,
-            $roleAssignments,
-            'submissionId',
-            $stageId
-        ));
+        import('lib.pkp.classes.security.authorization.SubmissionFileAccessPolicy');
+        $this->addPolicy(new SubmissionFileAccessPolicy($request, $args, $roleAssignments));
         return parent::authorize($request, $args, $roleAssignments);
     }
 
-    public function view($args, $request) {
-        $submissionFileId = (int) $request->getUserVar('submissionFileId');
-        $submissionId = (int) $request->getUserVar('submissionId');
+    function initialize($request, $args = null) {
+        parent::initialize($request, $args);
+    }
 
-        $submissionFile = Repo::submissionFile()->get($submissionFileId);
-        if (!$submissionFile || $submissionFile->getData('submissionId') !== $submissionId) {
-            die('Archivo no encontrado o no autorizado');
-        }
+    public function viewFile($args, $request) {
+        $fileId = (int)$request->getUserVar('fileId');
+        $submissionFileDao = DAORegistry::getDAO('SubmissionFileDAO');
+        $submissionFile = $submissionFileDao->getLatestRevision($fileId);
 
-        $fileManager = new PrivateFileManager();
-        $filePath = $fileManager->getBasePath() . DIRECTORY_SEPARATOR . $submissionFile->getData('path');
+        $filePath = $submissionFile->getFilePath();
+        $fileMimeType = $submissionFile->getFileType();
 
-        if (!file_exists($filePath)) {
-            die('Archivo no disponible en el servidor');
-        }
-
-        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-        header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
-        header('Content-Length: ' . filesize($filePath));
+        header('Content-type: ' . $fileMimeType);
         readfile($filePath);
-        exit;
+        exit();
     }
 }
