@@ -1,3 +1,5 @@
 <?php
-require_once('DocxViewerPlugin.inc.php');
-return new DocxViewerPlugin();
+
+require_once('VisualizadorDocsPlugin.inc.php');
+
+return new VisualizadorDocsPlugin();

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<locale name="en_US" full_name="English (US)">
-    <file>locale/en_US/locale.po</file>
-</locale>
-<locale name="es_ES" full_name="Español (España)">
-    <file>locale/es_ES/locale.po</file>
-</locale>

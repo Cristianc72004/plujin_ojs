@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE version SYSTEM "../../../lib/pkp/dtd/pluginVersion.dtd">
 <version>
-    <application>docxViewer</application>
+    <application>visualizadorDocs</application>
     <type>plugins.generic</type>
-    <release>1.0.4.0</release>
-    <date>2025-04-01</date>
-    <class>DocxViewerPlugin</class>
+    <release>1.0.0.0</release>
+    <date>2024-04-03</date>
     <lazy-load>1</lazy-load>
+    <class>VisualizadorDocsPlugin</class>
 </version>
