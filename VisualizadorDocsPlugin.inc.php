@@ -4,42 +4,57 @@ namespace APP\plugins\generic\visualizadorDocsPlugin;
 
 use PKP\plugins\GenericPlugin;
 use PKP\plugins\Hook;
+use APP\template\TemplateManager;
 
-class VisualizadorDocsPlugin extends GenericPlugin {
-
-    public function register($category, $path, $mainContextId = null) {
-        if (parent::register($category, $path, $mainContextId)) {
-            Hook::add('Template::Submission::SubmissionFiles::FileActions', [$this, 'addVisualizadorButton']);
-            Hook::add('LoadComponentHandler', [$this, 'setupHandler']);
-            return true;
+class VisualizadorDocsPlugin extends GenericPlugin
+{
+    public function register($category, $path, $mainContextId = null)
+    {
+        if (!parent::register($category, $path, $mainContextId)) {
+            return false;
         }
-        return false;
-    }
-    
 
-    public function getDisplayName() {
+        // Agregar archivos de idioma
+        $this->addLocaleData();
+
+        // Hooks principales
+        Hook::add('LoadHandler', [$this, 'handleLoadHandler']);
+        Hook::add('LoadComponentHandler', [$this, 'setupHandler']);
+
+        return true;
+    }
+
+    public function getDisplayName()
+    {
         return __('plugins.generic.visualizadorDocs.displayName');
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return __('plugins.generic.visualizadorDocs.description');
     }
 
-    public function addVisualizadorButton($hookName, $args) {
-        $smarty =& $args[1];
-        $output =& $args[2];
-        $submissionFile = $smarty->getTemplateVars('submissionFile');
-    
-        $templateMgr = \APP\template\TemplateManager::getManager();
-        $templateMgr->assign('fileId', $submissionFile->getId());
-    
-        $visualizadorButton = $templateMgr->fetch($this->getTemplateResource('visualizador.tpl'));
-        $output .= $visualizadorButton;
+    /**
+     * Intercepta la carga del handler de la grilla de archivos de envío
+     */
+    public function handleLoadHandler($hookName, $args)
+    {
+        $page = $args[0];
+        $op = $args[1];
+
+        if ($page === 'grid.files.submission' && $op === 'submission-files-grid') {
+            require_once($this->getPluginPath() . '/handlers/SubmissionFileGridHandler.inc.php');
+            return true;
+        }
+
         return false;
     }
-    
 
-    public function setupHandler($hookName, $args) {
+    /**
+     * Registra el handler del plugin para la visualización de documentos
+     */
+    public function setupHandler($hookName, $args)
+    {
         $component =& $args[0];
         if ($component === 'plugins.generic.visualizadorDocsPlugin.controllers.VisualizadorDocsHandler') {
             require_once($this->getPluginPath() . '/controllers/VisualizadorDocsHandler.php');
