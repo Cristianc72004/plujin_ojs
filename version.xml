@@ -2,7 +2,7 @@
     <application>visualizadorDocs</application>
     <type>plugins.generic</type>
     <release>1.0.0.0</release>
-    <date>2024-04-03</date>
+    <date>2025-04-03</date>
     <lazy-load>1</lazy-load>
     <class>VisualizadorDocsPlugin</class>
 </version>

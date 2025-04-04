@@ -1,8 +1,0 @@
-msgid "plugins.generic.visualizadorDocs.displayName"
-msgstr "Document Viewer"
-
-msgid "plugins.generic.visualizadorDocs.description"
-msgstr "Plugin to view documents (.docx and .pdf) in a popup window."
-
-msgid "plugins.generic.visualizadorDocs.visualizarDocumento"
-msgstr "View Document"

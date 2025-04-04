@@ -1,5 +1,3 @@
 <?php
-
-require_once('VisualizadorDocsPlugin.inc.php');
-
-return new VisualizadorDocsPlugin();
+require_once('VisualizadorDocsPlugin.php');
+return new APP\plugins\generic\visualizadorDocsPlugin\VisualizadorDocsPlugin();
