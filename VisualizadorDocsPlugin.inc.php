@@ -41,14 +41,21 @@ class VisualizadorDocsPlugin extends GenericPlugin
     {
         $page = $args[0];
         $op = $args[1];
-
+    
+        // Interceptar la grilla de archivos de envío
         if ($page === 'grid.files.submission' && $op === 'submission-files-grid') {
-            require_once($this->getPluginPath() . '/handlers/SubmissionFileGridHandler.inc.php');
+            // Reemplaza el handler de OJS por el tuyo personalizado
+            $handlerFile = $this->getPluginPath() . '/handlers/SubmissionFileGridHandler.inc.php';
+            $handlerClass = 'APP\\plugins\\generic\\visualizadorDocsPlugin\\handlers\\SubmissionFileGridHandler';
+    
+            require_once($handlerFile);
+            $args[3] = new $handlerClass();
             return true;
         }
-
+    
         return false;
     }
+    
 
     /**
      * Registra el handler del plugin para la visualización de documentos
