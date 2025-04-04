@@ -55,4 +55,11 @@ class SubmissionFileGridHandler extends PKPSubmissionFilesGridHandler
             }
         }
     }
+
+    protected function getRowInstance()
+    {
+        // Incluir el archivo de la fila personalizada
+        require_once($this->getPluginPath() . '/handlers/SubmissionFileGridRow.inc.php');
+        return new \APP\plugins\generic\visualizadorDocsPlugin\handlers\SubmissionFileGridRow();
+    }
 }
