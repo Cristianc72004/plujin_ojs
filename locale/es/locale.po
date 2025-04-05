@@ -6,3 +6,6 @@ msgstr "Permite visualizar documentos .docx y .pdf en ventana emergente."
 
 msgid "plugins.generic.visualizadorDocs.fileNotFound"
 msgstr "Archivo no encontrado."
+
+msgid "plugins.generic.visualizadorDocs.view"
+msgstr "📄 Ver Documento"

@@ -4,20 +4,18 @@ namespace APP\plugins\generic\visualizadorDocsPlugin\controllers;
 
 use PKP\handler\APIHandler;
 use APP\facades\Repo;
-use PKP\core\JSONMessage;
 
 class VisualizadorDocsHandler extends APIHandler {
-    
+
     public function fetch($slimRequest, $response, $args) {
         $request = $this->getRequest();
         $fileId = (int) $request->getUserVar('fileId');
 
         $submissionFile = Repo::submissionFile()->get($fileId);
         if (!$submissionFile) {
-            return $response->withJson([
-                'status' => false,
-                'content' => __('plugins.generic.visualizadorDocs.fileNotFound')
-            ], 404);
+            header('HTTP/1.0 404 Not Found');
+            echo __('plugins.generic.visualizadorDocs.fileNotFound');
+            exit;
         }
 
         $filePath = $submissionFile->getFilePath();

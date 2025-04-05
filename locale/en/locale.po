@@ -6,3 +6,6 @@ msgstr "Allows viewing .docx and .pdf documents in a popup window."
 
 msgid "plugins.generic.visualizadorDocs.fileNotFound"
 msgstr "File not found."
+
+msgid "plugins.generic.visualizadorDocs.view"
+msgstr "📄 View Document"
