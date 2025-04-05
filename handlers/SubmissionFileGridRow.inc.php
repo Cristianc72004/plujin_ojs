@@ -14,14 +14,10 @@ class SubmissionFileGridRow extends PKPSubmissionFilesGridRow
         parent::initialize($request);
 
         $submissionFile = $this->getData();
-        if (!$submissionFile) {
-            return;
-        }
+        if (!$submissionFile) return;
 
         $fileType = $submissionFile->getFileType();
-        if (!in_array($fileType, ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])) {
-            return;
-        }
+        if (!in_array($fileType, ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])) return;
 
         $fileId = $submissionFile->getId();
 
