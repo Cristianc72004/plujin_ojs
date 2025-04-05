@@ -4,15 +4,13 @@ namespace APP\plugins\generic\visualizadorDocsPlugin;
 
 use PKP\plugins\GenericPlugin;
 use PKP\plugins\Hook;
-use PKP\linkAction\LinkAction;
-use PKP\linkAction\request\RedirectAction;
 
 class VisualizadorDocsPlugin extends GenericPlugin {
 
     public function register($category, $path, $mainContextId = null) {
         if (parent::register($category, $path, $mainContextId)) {
             Hook::add('LoadComponentHandler', [$this, 'setupHandler']);
-            Hook::add('FileView::display::submissionFileActions', [$this, 'addButtonToGridRow']);
+            Hook::add('TemplateManager::fetch', [$this, 'addViewButton']);
             return true;
         }
         return false;
@@ -35,35 +33,35 @@ class VisualizadorDocsPlugin extends GenericPlugin {
         return false;
     }
 
-    public function addButtonToGridRow($hookName, $args) {
-        $submissionFile = $args[0]; // objeto SubmissionFile
-        $actions =& $args[1];       // array de acciones existentes
-
-        $fileType = strtolower($submissionFile->getFileType());
-        if (!in_array($fileType, ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])) {
-            return;
-        }
-
-        $request = \Application::get()->getRequest();
-        $dispatcher = $request->getDispatcher();
-
-        $url = $dispatcher->url(
-            $request,
-            \PKP\core\PKPApplication::ROUTE_COMPONENT,
-            null,
-            'plugins.generic.visualizadorDocsPlugin.controllers.VisualizadorDocsHandler',
-            'fetch',
-            null,
-            ['fileId' => $submissionFile->getId()]
-        );
-
-        $actions[] = new LinkAction(
-            'visualizarDoc',
-            new RedirectAction($url),
-            __('plugins.generic.visualizadorDocs.view'),
-            'view'
-        );
-
+    public function addViewButton($hookName, $params) {
+        $templateMgr = $params[0];
+        $template = $params[1];
+    
+        // Seguridad extra: prevenir error si no hay output
+        $args = func_get_args();
+        if (!isset($args[2])) return false;
+    
+        $output =& $args[2];
+    
+        if ($template !== 'controllers/grid/gridRow.tpl') return;
+    
+        $row = $templateMgr->getTemplateVars('row');
+        if (!$row || !method_exists($row, 'getData')) return;
+    
+        $data = $row->getData();
+        if (!isset($data['submissionFile'])) return;
+    
+        $submissionFile = $data['submissionFile'];
+        $mimeType = strtolower($submissionFile->getData('mimetype'));
+    
+        if (!in_array($mimeType, ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])) return;
+    
+        $templateMgr->assign([
+            'fileId' => $submissionFile->getId(),
+        ]);
+    
+        $output .= $templateMgr->fetch($this->getTemplateResource('visualizadorButton.tpl'));
         return false;
     }
+    
 }
