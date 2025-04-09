@@ -1,11 +1,8 @@
-msgid "plugins.generic.visualizadorDocs.displayName"
-msgstr "Visualizador de Documentos"
+msgid "plugins.generic.docxViewer.displayName"
+msgstr "Plugin de Visor de DOCX"
 
-msgid "plugins.generic.visualizadorDocs.description"
-msgstr "Permite visualizar documentos .docx y .pdf en ventana emergente."
+msgid "plugins.generic.docxViewer.description"
+msgstr "Permite visualizar archivos DOCX directamente desde el servidor local."
 
-msgid "plugins.generic.visualizadorDocs.fileNotFound"
-msgstr "Archivo no encontrado."
-
-msgid "plugins.generic.visualizadorDocs.view"
-msgstr "Ver Documento"
+msgid "plugins.generic.docxViewer.button.viewDocx"
+msgstr "Visualizar DOCX"
